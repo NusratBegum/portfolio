@@ -1,0 +1,7 @@
+node_modules/
+dist/
+dist-single/
+
+# Source assets and personal files
+*.zip
+*.mp4
