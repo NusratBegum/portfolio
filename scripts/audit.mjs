@@ -16,7 +16,8 @@ mkdirSync(out, { recursive: true });
 
 const SLIDES = ['intro', 'impact', 'skills', 'work', 'writing', 'contact'];
 const report = { desktop: {}, mobile: {}, consoleErrors: [] };
-const browser = await chromium.launch();
+// PW_CHROMIUM: use a preinstalled Chromium (e.g. CI or containers) instead of Playwright's download
+const browser = await chromium.launch({ executablePath: process.env.PW_CHROMIUM || undefined });
 
 async function makePage(theme, contextOpts) {
   const ctx = await browser.newContext(contextOpts);

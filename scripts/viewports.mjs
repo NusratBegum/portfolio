@@ -17,7 +17,8 @@ const targets = [
   { name: 'laptop-sm', viewport: { width: 1280, height: 720 } },
 ];
 
-const browser = await chromium.launch();
+// PW_CHROMIUM: use a preinstalled Chromium (e.g. CI or containers) instead of Playwright's download
+const browser = await chromium.launch({ executablePath: process.env.PW_CHROMIUM || undefined });
 for (const { name, ...opts } of targets) {
   for (const theme of name === 'phone' ? ['light', 'dark'] : ['light']) {
     const ctx = await browser.newContext(opts);

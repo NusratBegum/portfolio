@@ -11,7 +11,8 @@ const url = process.argv[2] ?? 'http://localhost:5173/';
 const out = process.argv[3] ?? 'motion-out';
 mkdirSync(out, { recursive: true });
 
-const browser = await chromium.launch();
+// PW_CHROMIUM: use a preinstalled Chromium (e.g. CI or containers) instead of Playwright's download
+const browser = await chromium.launch({ executablePath: process.env.PW_CHROMIUM || undefined });
 
 for (const theme of ['light', 'dark']) {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
