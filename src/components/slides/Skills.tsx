@@ -1,7 +1,7 @@
 import { Braces, Database, Sparkles } from 'lucide-react';
 import Slide from './Slide';
 import { BentoCard, BentoGrid } from '../ui/Bento';
-import { SKILL_FLOCKS, CERTS } from '../../data/content';
+import { SKILL_FLOCKS, CERTS, CLOUD_LEARNING } from '../../data/content';
 
 const ICONS = [Braces, Sparkles, Database];
 
@@ -56,6 +56,21 @@ export default function Skills() {
         <BentoCard tone="tint" className="lg:min-h-[16.7rem]">
           <Head Icon={ICONS[2]} title={data.title} sub={data.sub} />
           <Chips lead={data.lead} chips={data.chips} />
+        </BentoCard>
+
+        {/* cloud — what she is learning now, kept apart from the stack she ships with */}
+        <BentoCard className="md:col-span-2 lg:col-span-3 max-md:!px-3 max-md:!py-2">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 md:gap-x-3 md:gap-y-2">
+            <span className="text-label uppercase text-muted">Cloud · learning now</span>
+            {CLOUD_LEARNING.map((c) => (
+              <span
+                key={c}
+                className="rounded-full border border-line bg-surface px-2 py-[2px] text-[0.65rem] font-semibold text-ink md:px-3.5 md:py-1.5 md:text-[0.8rem]"
+              >
+                {c}
+              </span>
+            ))}
+          </div>
         </BentoCard>
 
         {/* credentials — the bold strip */}

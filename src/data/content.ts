@@ -34,6 +34,8 @@ export const SKILL_FLOCKS = [
   },
 ];
 
+export const CLOUD_LEARNING = ['Kubernetes', 'AWS', 'GCP', 'Redis', 'Microservices'];
+
 export const PROJECTS = [
   {
     num: '01',
