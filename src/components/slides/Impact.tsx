@@ -21,14 +21,14 @@ const Num = ({ big = false, count, prefix = '', suffix = '', onAccent = false }:
     data-suffix={suffix}
     className={`block tabular-nums transition-colors duration-300 ${
       onAccent ? 'text-on-accent' : 'text-ink group-hover:text-accent'
-    } ${big ? 'text-[clamp(3.1rem,7vw,5.5rem)] leading-none font-extrabold tracking-tighter' : 'text-stat'}`}
+    } ${big ? 'text-display' : 'text-stat'}`}
   >
     {prefix}{count}{suffix}
   </b>
 );
 
 const Label = ({ children, onAccent = false }: { children: React.ReactNode; onAccent?: boolean }) => (
-  <span className={`text-label block text-right uppercase lg:mt-2 lg:text-left ${onAccent ? 'text-on-accent' : 'text-muted'}`}>
+  <span className={`font-mono text-caption block text-right lg:mt-2 lg:text-left ${onAccent ? 'text-on-accent' : 'text-muted'}`}>
     {children}
   </span>
 );
@@ -54,10 +54,10 @@ export default function Impact() {
             />
           }
         >
-          <span className="text-label uppercase text-muted">The headline</span>
+          <span className="font-mono text-label uppercase text-muted">The headline</span>
           <div className="mt-3 lg:mt-auto">
             <Num big count={90} prefix="−" suffix="%" />
-            <p className="mt-2 max-w-[26ch] text-sm font-semibold text-muted md:mt-3 md:text-lg">
+            <p className="text-body md:text-body-lg mt-2 max-w-[30ch] text-muted md:mt-3">
               permutation-test compute in my drift detector, <span className="text-ink">published at IEEE JCSSE 2026</span>.
             </p>
           </div>
@@ -98,9 +98,9 @@ export default function Impact() {
           }
         >
           <Corner Icon={GraduationCap} />
-          <p className="my-auto pr-12 text-sm font-semibold text-ink md:pr-14 md:text-base">
+          <p className="text-body my-auto pr-12 font-medium text-ink md:pr-14">
             MSc Computer Science @ Mahidol University (MUICT)
-            <span className="mt-1 block text-xs font-medium text-muted md:text-sm">
+            <span className="text-body-sm mt-1 block text-muted">
               Thesis: Feature Drift Detection via Adversarial Validation
             </span>
           </p>

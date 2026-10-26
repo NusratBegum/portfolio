@@ -28,7 +28,7 @@ export default function Rail({
           <button
             key={s}
             onClick={() => onGo(i)}
-            className={`text-label uppercase transition-colors ${i === active ? 'text-accent' : 'text-muted hover:text-ink'}`}
+            className={`font-mono text-label uppercase transition-colors ${i === active ? 'text-accent' : 'text-muted hover:text-ink'}`}
           >
             {s}
           </button>

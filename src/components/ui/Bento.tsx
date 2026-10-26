@@ -51,7 +51,7 @@ export function BentoCard({ tone = 'glass', className = '', background, cta, hre
       {cta && (
         <span
           className={cx(
-            'text-label relative mt-3 inline-flex items-center gap-1.5 uppercase transition-all duration-300',
+            'font-mono text-label relative mt-3 inline-flex items-center gap-1.5 uppercase transition-all duration-300',
             tone === 'accent' ? 'text-on-accent' : 'text-accent-strong',
             'lg:absolute lg:right-5 lg:bottom-5 lg:mt-0 lg:translate-y-2 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100',
           )}

@@ -29,20 +29,20 @@ export default function Work() {
             {/* phone: one readable row (title left, metric right); md+: tall card */}
             <div className="flex items-end justify-between gap-4 md:block md:h-full">
               <div>
-                <div className="hidden text-[clamp(2rem,4vw,3.4rem)] font-extrabold leading-none tracking-tighter text-muted transition-colors duration-300 group-hover:text-accent md:block">
+                <div className="font-mono text-label hidden text-muted transition-colors duration-300 group-hover:text-accent md:block">
                   {p.num}
                 </div>
-                <h3 className="text-title md:mt-3 md:pr-8 text-ink">{p.title}</h3>
+                <h3 className="font-mono text-body font-medium md:mt-3 md:pr-8 md:text-h3 text-ink">{p.title}</h3>
               </div>
               <div className="flex-none text-right md:mt-auto md:text-left">
                 <Bars heights={SPARKS[i]} hot={p.num === '01' || p.num === '04' ? 0 : 3} className="mb-4 hidden opacity-70 md:flex" />
-                <div className="text-[clamp(1.15rem,2.4vw,2rem)] font-extrabold tracking-tight text-accent">
+                <div className="text-h3 font-bold tabular-nums text-accent md:text-h2">
                   {p.metric}
-                  <small className="text-label mt-1 block uppercase text-muted">{p.metricLabel}</small>
+                  <small className="font-mono text-caption mt-1 block max-w-[18ch] text-muted md:max-w-none">{p.metricLabel}</small>
                 </div>
                 <ul className="mt-3 hidden flex-wrap gap-1.5 md:flex">
                   {p.tags.map((t) => (
-                    <li key={t} className="rounded-full border border-line px-2.5 py-1 text-[0.68rem] font-bold text-muted">
+                    <li key={t} className="font-mono text-label leading-tight tracking-normal rounded-full border border-line px-2.5 py-1 text-muted">
                       {t}
                     </li>
                   ))}

@@ -28,12 +28,12 @@ export default function Writing() {
           >
             <span
               aria-hidden
-              className="hidden text-[clamp(1.6rem,3vw,2.4rem)] font-extrabold tracking-tighter text-muted transition-colors duration-300 group-hover:text-accent md:block"
+              className="font-mono text-label hidden text-muted transition-colors duration-300 group-hover:text-accent md:block"
             >
               {post.num}
             </span>
-            <span className="text-label uppercase text-muted md:mt-auto">{post.kind}</span>
-            <h3 className="text-title pr-14 text-ink md:pr-0">{post.title}</h3>
+            <span className="font-mono text-label uppercase text-muted md:mt-auto">{post.kind}</span>
+            <h3 className="text-h3 pr-14 text-ink md:pr-0">{post.title}</h3>
           </BentoCard>
         ))}
       </BentoGrid>

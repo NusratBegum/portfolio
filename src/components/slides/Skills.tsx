@@ -8,14 +8,14 @@ const ICONS = [Braces, Sparkles, Database];
 const Chips = ({ lead, chips }: { lead: string[]; chips: string[] }) => (
   <ul className="mt-1.5 flex flex-wrap gap-1 md:mt-4 md:gap-2">
     {lead.map((c) => (
-      <li key={c} className="rounded-full bg-accent px-2 py-[2px] text-[0.65rem] font-semibold text-on-accent shadow-md md:px-3.5 md:py-1.5 md:text-[0.8rem]">
+      <li key={c} className="font-mono text-label leading-tight tracking-normal rounded-full bg-accent px-2 py-[2px] text-on-accent shadow-md md:px-3.5 md:py-1.5">
         {c}
       </li>
     ))}
     {chips.map((c) => (
       <li
         key={c}
-        className="rounded-full border border-line bg-surface px-2 py-[2px] text-[0.65rem] font-semibold text-ink transition-transform duration-300 hover:-translate-y-0.5 md:px-3.5 md:py-1.5 md:text-[0.8rem]"
+        className="font-mono text-label leading-tight tracking-normal rounded-full border border-line bg-surface px-2 py-[2px] text-ink transition-transform duration-300 hover:-translate-y-0.5 md:px-3.5 md:py-1.5"
       >
         {c}
       </li>
@@ -31,9 +31,9 @@ const Head = ({ Icon, title, sub }: { Icon: React.ElementType; title: string; su
     >
       <Icon className="size-4.5 md:size-5.5" strokeWidth={2.2} />
     </span>
-    <h3 className="text-title text-ink">
+    <h3 className="text-h3 text-ink">
       {title}
-      <small className="text-label mt-0.5 hidden uppercase text-muted md:mt-1 md:block">{sub}</small>
+      <small className="font-mono text-label mt-0.5 hidden uppercase text-muted md:mt-1 md:block">{sub}</small>
     </h3>
   </div>
 );
@@ -61,9 +61,9 @@ export default function Skills() {
         {/* credentials — the bold strip */}
         <BentoCard tone="accent" className="md:col-span-2 lg:col-span-3 max-md:!px-3 max-md:!py-2">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 md:gap-x-3 md:gap-y-2">
-            <span className="text-label uppercase text-on-accent">Credentials</span>
+            <span className="font-mono text-label uppercase text-on-accent">Credentials</span>
             {CERTS.map((c) => (
-              <span key={c} className="text-[0.65rem] font-semibold text-on-accent md:text-[0.78rem]">
+              <span key={c} className="text-body-sm leading-snug font-medium text-on-accent">
                 <span aria-hidden className="mx-1 opacity-60 md:mx-1.5">✦</span>
                 {c}
               </span>

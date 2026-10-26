@@ -23,15 +23,15 @@ const SOCIALS = [
 export default function Contact() {
   return (
     <Slide ghost="SAY HI" innerClassName="text-center">
-      <h2 data-reveal className="text-display uppercase text-ink">
-        Let's <span className="text-accent">fly</span>
+      <h2 data-reveal className="text-h1 uppercase text-ink">
+        Let’s <span className="text-accent">fly</span>
         <br />
         together
       </h2>
       <a
         data-reveal
         href={LINKS.email}
-        className="btn btn-ink mt-8 mb-5 h-12 max-w-full px-6 text-[clamp(0.9rem,2.4vw,1.4rem)] font-bold tracking-tight md:h-14 md:px-8"
+        className="btn btn-ink text-body md:text-body-lg mt-8 mb-5 h-12 max-w-full px-6 md:h-14 md:px-8"
       >
         <span className="truncate">{LINKS.emailText}</span>
       </a>
@@ -43,7 +43,7 @@ export default function Contact() {
           </a>
         ))}
       </div>
-      <div data-reveal className="text-body mt-10 flex flex-wrap justify-center gap-x-7 gap-y-1 text-muted">
+      <div data-reveal className="font-mono text-caption mt-10 flex flex-wrap justify-center gap-x-7 gap-y-1 text-muted">
         <span>© 2026 Nusrat Begum</span>
         <a href={LINKS.phone} className="transition-colors hover:text-accent">{LINKS.phoneText}</a>
         <span>Bangkok, Thailand</span>
