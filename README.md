@@ -16,8 +16,9 @@ src/
   App.tsx                 — scroll orchestration (GSAP), layout, theme state
   data/content.ts         — all copy in one place
   store/journey.ts        — shared scroll-progress store (DOM ↔ WebGL bridge)
-  styles/global.css       — design tokens (light/dark), fluid type scale, primitives
-  components/             — Nav, Rail, slides/ (Hero, Impact, Skills, Work, Writing, Contact)
+  styles/global.css       — design tokens (light/dark), type roles, glass materials, button recipes
+  components/             — Nav, Rail, deck.ts (in-deck navigation), slides/ (Hero, Impact, Skills,
+                            Work, Writing, Contact), ui/ (Card, Tag, Eyebrow, Stat, Button, Link)
   three/
     Sky.tsx               — Canvas, camera dolly, lights, per-theme atmosphere
     Bird.tsx              — spline flight path, damped-spring physics; textured hero flamingo
@@ -26,22 +27,24 @@ src/
   assets/models/          — flamingo-real.glb (user's Meshy AI model, optimized 10 MB → 0.8 MB
                             via gltf-transform: weld/simplify/quantize + 1024px WebP textures)
   assets/flat/            — flat flamingo poses (extracted from user's Freepik set,
-                            white keyed to alpha) — Writing covers + Impact cell art
+                            white keyed to alpha) — Writing covers
   assets/flamingo-logo.svg — brand mark (nav, rail marker, favicon)
 ```
 
 ## Design system
 
-Two themes, token-switched on `html.dark` (persisted, defaults to OS preference):
+Documented in **[DESIGN.md](DESIGN.md)**: principles, tokens, components, accessibility, constraints and
+typography. In short:
 
-| Token | Light (Oat) | Dark (Apple midnight) |
-|---|---|---|
-| `--bg` | `#e8e1d4` | `#0c0c0e` |
-| `--ink` | `#1d1d1f` | `#f5f5f7` |
-| `--muted` | `#5d594f` | `#a1a1a6` |
-| `--accent` | `#b04e2e` | `#e0704a` |
-
-Typography: Apple system sans stack; fluid `clamp()` type scale (`--text-hero` … `--text-label`), mobile-first breakpoints throughout.
+- **Tokens, two tiers.** Primitive ramps (oat, midnight, terracotta; 4px spacing, radii, elevation, motion,
+  z-index) map to semantic roles (`bg`, `surface`, `ink`, `muted`, `line`, `accent`, `accent-ink`, `focus`…)
+  per theme, switched by `html.dark` (persisted, defaults to the OS preference). Components use Tailwind v4
+  `@theme` utilities only (`bg-surface`, `text-muted`, `border-line`, `rounded-card`, `p-card`).
+- **Type.** Self-hosted Inter (UI, reading) + JetBrains Mono (metadata) on a Major Third scale of role tokens
+  (`text-display` … `text-caption`); fluid `clamp()` only for display, h1 and stat.
+- **Components** in `src/components/ui/`: Card (default / feature), Tag, Eyebrow, Stat, Button, CtaLabel.
+- **Contrast** is measured on the rendered glass over the live sky, in both themes: ≥ 4.5:1 for every
+  label, caption and paragraph, ≥ 3:1 for display-size accent text.
 
 ## The 3D world
 
@@ -69,7 +72,6 @@ npm run build:single   # self-contained single-file build → dist-single/
 
 - Flight path keypoints: `PATH` in [src/three/Bird.tsx](src/three/Bird.tsx)
 - Spring feel: `Spring3(omega, zeta)` constructors — higher ω = snappier, lower ζ = bouncier
-- Vignettes: [src/three/Stations.tsx](src/three/Stations.tsx)
 
 ## UI-UX audit
 

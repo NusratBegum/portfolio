@@ -1,111 +1,58 @@
-import { GraduationCap, Timer, TrendingUp, Zap } from 'lucide-react';
 import Slide from './Slide';
-import { BentoCard, BentoGrid, Bars } from '../ui/Bento';
-import dancer from '../../assets/flat/dancer.webp';
+import { IMPACT } from '../../data/content';
+import { Card } from '../ui/Card';
+import { Eyebrow } from '../ui/Eyebrow';
+import { Stat } from '../ui/Stat';
 
-/** small corner icon — decorative, never load-bearing */
-const Corner = ({ Icon, onAccent = false }: { Icon: React.ElementType; onAccent?: boolean }) => (
-  <Icon
-    aria-hidden
-    strokeWidth={2}
-    className={`absolute top-0 right-0 hidden size-4.5 md:size-5 lg:block ${onAccent ? 'text-on-accent/90' : 'text-accent/90'}`}
-  />
-);
-
-const Num = ({ big = false, count, prefix = '', suffix = '', onAccent = false }: {
-  big?: boolean; count: number; prefix?: string; suffix?: string; onAccent?: boolean;
-}) => (
-  <b
-    data-count={count}
-    data-prefix={prefix}
-    data-suffix={suffix}
-    className={`block tabular-nums transition-colors duration-300 ${
-      onAccent ? 'text-on-accent' : 'text-ink group-hover:text-accent'
-    } ${big ? 'text-display' : 'text-stat'}`}
-  >
-    {prefix}{count}{suffix}
-  </b>
-);
-
-const Label = ({ children, onAccent = false }: { children: React.ReactNode; onAccent?: boolean }) => (
-  <span className={`font-mono text-caption block text-right lg:mt-2 lg:text-left ${onAccent ? 'text-on-accent' : 'text-muted'}`}>
-    {children}
-  </span>
-);
-
-/* phone: stat reads as a row (number left, label right); lg: stacked cell */
-const Stat = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex items-center justify-between gap-3 lg:block">{children}</div>
-);
-
+/* Highlights: one feature card (the thesis result — the slide's headline
+   number), one card of supporting numbers with their sources, one card for
+   the degree. lg: feature on the left, the other two stacked on the right. */
 export default function Impact() {
+  const { headline, stats, education } = IMPACT;
   return (
-    <Slide ghost="IMPACT" extraClass="js-slide-impact">
-      <BentoGrid className="grid-cols-1 lg:grid-cols-4 lg:auto-rows-[10.5rem]">
-        {/* the headline — big cream cell with a growth chart behind */}
-        <BentoCard
-          tone="cream"
-          className="lg:col-span-2 lg:row-span-2"
-          background={
-            <Bars
-              heights={[1.2, 1.8, 2.6, 3.4, 4.4]}
-              hot={4}
-              className="absolute right-5 bottom-5 hidden opacity-70 md:flex"
+    <Slide name="Highlights" className="js-slide-impact">
+      <div className="grid gap-grid lg:grid-cols-2">
+        <Card tone="feature" className="lg:row-span-2 lg:justify-between">
+          <Eyebrow>{IMPACT.eyebrow}</Eyebrow>
+          <div className="mt-1 md:mt-6">
+            <Stat
+              count
+              size="display"
+              layout="row-to-stack"
+              value={headline.value}
+              prefix={headline.prefix}
+              suffix={headline.suffix}
+              caption={headline.label}
             />
-          }
-        >
-          <span className="font-mono text-label uppercase text-muted">The headline</span>
-          <div className="mt-3 lg:mt-auto">
-            <Num big count={90} prefix="−" suffix="%" />
-            <p className="text-body md:text-body-lg mt-2 max-w-[30ch] text-muted md:mt-3">
-              permutation-test compute in my drift detector, <span className="text-ink">published at IEEE JCSSE 2026</span>.
-            </p>
+            <p className="mt-2 font-mono text-caption text-muted md:mt-3">{headline.context}</p>
           </div>
-        </BentoCard>
+        </Card>
 
-        {/* bold accent cell */}
-        <BentoCard tone="accent">
-          <Corner Icon={Zap} onAccent />
-          <Stat>
-            <Num count={92} suffix="%" onAccent />
-            <Label onAccent>smaller 3D model</Label>
-          </Stat>
-        </BentoCard>
+        <Card>
+          <ul className="grid divide-y divide-line md:grid-cols-3 md:divide-x md:divide-y-0">
+            {stats.map((s) => (
+              <li key={s.label} className="py-1.5 first:pt-0 last:pb-0 md:px-4 md:py-0 md:first:pl-0 md:last:pr-0">
+                <Stat
+                  count
+                  layout="row-to-stack"
+                  value={s.value}
+                  prefix={s.prefix}
+                  suffix={s.suffix}
+                  caption={s.label}
+                  source={s.source}
+                />
+              </li>
+            ))}
+          </ul>
+        </Card>
 
-        <BentoCard>
-          <Corner Icon={TrendingUp} />
-          <Stat>
-            <Num count={13} />
-            <Label>real-world streams benchmarked</Label>
-          </Stat>
-        </BentoCard>
-
-        <BentoCard tone="tint">
-          <Corner Icon={Timer} />
-          <Stat>
-            <Num count={7} />
-            <Label>detectors compared</Label>
-          </Stat>
-        </BentoCard>
-
-        <BentoCard
-          background={
-            <img
-              src={dancer}
-              alt=""
-              className="absolute -right-1 -bottom-2 h-16 object-contain transition-transform duration-700 group-hover:-rotate-3 md:h-24"
-            />
-          }
-        >
-          <Corner Icon={GraduationCap} />
-          <p className="text-body my-auto pr-12 font-medium text-ink md:pr-14">
-            MSc Computer Science @ Mahidol University (MUICT)
-            <span className="text-body-sm mt-1 block text-muted">
-              Thesis: Feature Drift Detection via Adversarial Validation
-            </span>
-          </p>
-        </BentoCard>
-      </BentoGrid>
+        <Card>
+          <h3 className="text-body font-medium text-ink md:text-h3">{education.degree}</h3>
+          <p className="text-body-sm text-ink">{education.school}</p>
+          <p className="text-body-sm text-muted md:mt-2">{education.detail}</p>
+          <p className="font-mono text-caption text-muted md:mt-2">{education.timing}</p>
+        </Card>
+      </div>
     </Slide>
   );
 }

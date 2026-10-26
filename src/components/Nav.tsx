@@ -1,27 +1,38 @@
 import { Moon, Sun } from 'lucide-react';
 import type { Theme } from '../App';
-import { LINKS } from '../data/content';
+import { NAV } from '../data/content';
+import { Button, CtaButton, buttonClass } from './ui/Button';
+import { useDeck } from './deck';
 import logoUrl from '../assets/flamingo-logo.svg';
 
+/* Site header: brand (flies home), theme toggle, the one persistent action.
+   Spans the same column as the slides (gutter + max-w-7xl). */
 export default function Nav({ theme, onToggleTheme }: { theme: Theme; onToggleTheme: () => void }) {
+  const goTo = useDeck();
   return (
-    <nav className="pointer-events-none fixed top-4 left-1/2 z-50 flex w-[min(1280px,calc(100%-1.6rem))] -translate-x-1/2 items-center justify-between">
-      <a href="#" className="btn btn-glass btn-md pointer-events-auto gap-2 px-4">
+    <header className="pointer-events-none fixed inset-x-gutter top-4 z-chrome mx-auto flex max-w-7xl items-center justify-between">
+      <a
+        href="#intro"
+        onClick={(e) => {
+          if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+          e.preventDefault();
+          goTo('Intro');
+        }}
+        className={buttonClass({ variant: 'secondary' }, 'pointer-events-auto px-4')}
+      >
         <img src={logoUrl} alt="" aria-hidden className="w-6" />
-        Nusrat Begum
+        {NAV.brand}
       </a>
       <div className="pointer-events-auto flex items-center gap-2">
-        <button
+        <Button
+          size="icon"
           onClick={onToggleTheme}
-          aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          className="btn btn-glass btn-icon"
+          aria-label={theme === 'dark' ? NAV.themeToggle.toLight : NAV.themeToggle.toDark}
         >
           {theme === 'dark' ? <Sun className="size-4.5" strokeWidth={2} /> : <Moon className="size-4.5" strokeWidth={2} />}
-        </button>
-        <a href={LINKS.email} className="btn btn-accent btn-md">
-          Hire me
-        </a>
+        </Button>
+        <CtaButton cta={NAV.cta} variant="primary" />
       </div>
-    </nav>
+    </header>
   );
 }
