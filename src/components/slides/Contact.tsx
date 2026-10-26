@@ -1,4 +1,4 @@
-import { PenLine } from 'lucide-react';
+import { FileDown, PenLine } from 'lucide-react';
 import Slide from './Slide';
 import { LINKS } from '../../data/content';
 
@@ -42,6 +42,10 @@ export default function Contact() {
             {label}
           </a>
         ))}
+        <a href={LINKS.cv} download className="btn btn-glass btn-sm">
+          <FileDown className="size-4" aria-hidden />
+          CV (PDF)
+        </a>
       </div>
       <div data-reveal className="text-body mt-10 flex flex-wrap justify-center gap-x-7 gap-y-1 text-muted">
         <span>© 2026 Nusrat Begum</span>
