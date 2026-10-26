@@ -57,13 +57,13 @@ const pAfterRail = await page.evaluate(() => (window).__journey.p);
 await page.screenshot({ path: join(out, 'ix-rail-work.png') });
 
 /* hover a work card */
-const card = page.locator('a.glass.group').nth(4);
+const card = page.locator('#work a.card-link').first();
 await card.hover();
 await page.waitForTimeout(700);
 await page.screenshot({ path: join(out, 'ix-hover-card.png') });
 
 /* custom cursor exists on fine pointer */
-const cursorOk = await page.evaluate(() => !!document.querySelector('.pointer-events-none.fixed.z-\\[100\\]'));
+const cursorOk = await page.evaluate(() => !!document.querySelector('.z-cursor'));
 
 console.log(JSON.stringify({
   toggleToDark: isDark,
