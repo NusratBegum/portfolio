@@ -16,7 +16,7 @@ export const SKILL_FLOCKS = [
     title: 'Backend',
     sub: 'Python APIs',
     lead: ['Python', 'FastAPI'],
-    chips: ['Pydantic', 'SQLAlchemy', 'REST APIs', 'OAuth2 / JWT', 'pytest', 'Docker', 'uv'],
+    chips: ['Pydantic', 'SQLAlchemy', 'REST APIs', 'OAuth2 / JWT', 'pytest', 'Docker', 'GitHub Actions'],
   },
   {
     glyph: '✦',
@@ -37,22 +37,14 @@ export const SKILL_FLOCKS = [
 export const PROJECTS = [
   {
     num: '01',
-    title: 'EADD Drift Detector',
-    metric: '13',
-    metricLabel: 'real-world streams benchmarked',
-    tags: ['Python', 'LightGBM', 'SHAP', 'pytest'],
-    href: 'https://github.com/NusratBegum/unsupervised-concept-drift-detection',
-  },
-  {
-    num: '02',
     title: 'Smart Calculator API',
-    metric: '3',
-    metricLabel: 'Docker services',
+    metric: '20',
+    metricLabel: 'automated API tests in CI',
     tags: ['FastAPI', 'PostgreSQL', 'JWT', 'Docker'],
     href: 'https://smart-calculator-api.vercel.app',
   },
   {
-    num: '03',
+    num: '02',
     title: 'Diabetes Risk API',
     metric: '0.83',
     metricLabel: 'held-out ROC AUC',
@@ -60,20 +52,28 @@ export const PROJECTS = [
     href: 'https://nusrat-diabetes-api.vercel.app',
   },
   {
-    num: '04',
+    num: '03',
     title: 'Bangkok Air Quality Tracker',
     metric: '570',
     metricLabel: 'days auto-collected',
-    tags: ['Python', 'GitHub Actions', 'pandas', 'REST APIs'],
+    tags: ['Python', 'GitHub Actions', 'Chart.js', 'REST APIs'],
     href: 'https://bangkok-air-quality.vercel.app',
+  },
+  {
+    num: '04',
+    title: 'EADD Drift Detector',
+    metric: '4/4',
+    metricLabel: 'drift types caught, 0 false alarms',
+    tags: ['Python', 'LightGBM', 'SHAP', 'pytest'],
+    href: 'https://github.com/NusratBegum/unsupervised-concept-drift-detection',
   },
 ];
 
 export const CERTS = [
   'IEEE JCSSE 2026 paper (first author)',
-  'MongoDB Schema Design',
-  'Ethical Hacker',
-  'Hult Prize 2021 · Bangkok Regional',
+  'Microsoft Azure Fundamentals (AZ-900)',
+  'Google Data Analytics Certificate',
+  'Hult Prize 2021 · Campus Winner',
 ];
 
 export const POSTS = [

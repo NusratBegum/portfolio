@@ -8,8 +8,8 @@ export default function Hero() {
         <span className="block overflow-hidden"><span data-hero-row className="text-outline block">Begum</span></span>
       </h1>
       <p data-hero-fade className="text-body flex flex-wrap items-center gap-3 font-semibold text-muted">
-        Python Backend <i className="not-italic text-accent">✦</i> Full-Stack
-        <i className="not-italic text-accent">✦</i> <span className="text-ink">ML Research</span>
+        Python Full-Stack <i className="not-italic text-accent">✦</i> FastAPI
+        <i className="not-italic text-accent">✦</i> <span className="text-ink">React</span>
       </p>
       <div
         data-hero-fade

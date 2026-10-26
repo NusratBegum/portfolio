@@ -56,9 +56,9 @@ export default function Impact() {
         >
           <span className="text-label uppercase text-muted">The headline</span>
           <div className="mt-3 lg:mt-auto">
-            <Num big count={90} prefix="−" suffix="%" />
+            <Num big count={20} suffix="/199" />
             <p className="mt-2 max-w-[26ch] text-sm font-semibold text-muted md:mt-3 md:text-lg">
-              permutation-test compute in my drift detector, <span className="text-ink">published at IEEE JCSSE 2026</span>.
+              permutations to confirm a clear drift in my drift detector, <span className="text-ink">published at IEEE JCSSE 2026</span>.
             </p>
           </div>
         </BentoCard>
