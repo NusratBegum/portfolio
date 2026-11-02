@@ -51,12 +51,12 @@ export type Project = {
 export const PROJECTS: Project[] = [
   {
     num: '01',
-    title: 'Smart Calculator API',
-    metric: '20',
-    metricLabel: 'automated API tests in CI',
-    tags: ['FastAPI', 'PostgreSQL', 'JWT', 'Docker'],
-    href: 'https://smart-calculator-api.vercel.app',
-    code: 'https://github.com/NusratBegum/smart-calculator',
+    title: 'StockSense Inventory',
+    metric: '0',
+    metricLabel: 'oversells in 16 parallel orders',
+    tags: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL'],
+    href: 'https://stocksense-demo-mauve.vercel.app',
+    code: 'https://github.com/NusratBegum/stocksense',
   },
   {
     num: '02',
