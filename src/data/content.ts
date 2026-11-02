@@ -82,7 +82,8 @@ export const PROJECTS: Project[] = [
     metric: '4/4',
     metricLabel: 'drift types caught, 0 false alarms',
     tags: ['Python', 'LightGBM', 'SHAP', 'pytest'],
-    href: 'https://ieeexplore.ieee.org/document/11596765',
+    href: 'https://eadd-demo.vercel.app',
+    code: 'https://github.com/NusratBegum/eadd',
   },
 ];
 
