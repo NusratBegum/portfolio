@@ -1,91 +1,63 @@
-import { Braces, Database, Sparkles } from 'lucide-react';
 import Slide from './Slide';
-import { BentoCard, BentoGrid } from '../ui/Bento';
-import { SKILL_FLOCKS, CERTS, CLOUD_LEARNING } from '../../data/content';
+import { SKILL_FLOCKS, SKILLS_COPY, CERTS, CLOUD_LEARNING } from '../../data/content';
+import { Card } from '../ui/Card';
+import { Eyebrow } from '../ui/Eyebrow';
+import { Tag, TagList } from '../ui/Tag';
 
-const ICONS = [Braces, Sparkles, Database];
-
-const Chips = ({ lead, chips }: { lead: string[]; chips: string[] }) => (
-  <ul className="mt-1.5 flex flex-wrap gap-1 md:mt-4 md:gap-2">
-    {lead.map((c) => (
-      <li key={c} className="rounded-full bg-accent px-2 py-[2px] text-[0.65rem] font-semibold text-on-accent shadow-md md:px-3.5 md:py-1.5 md:text-[0.8rem]">
-        {c}
-      </li>
-    ))}
-    {chips.map((c) => (
-      <li
-        key={c}
-        className="rounded-full border border-line bg-surface px-2 py-[2px] text-[0.65rem] font-semibold text-ink transition-transform duration-300 hover:-translate-y-0.5 md:px-3.5 md:py-1.5 md:text-[0.8rem]"
-      >
-        {c}
-      </li>
-    ))}
-  </ul>
-);
-
-const Head = ({ Icon, title, sub }: { Icon: React.ElementType; title: string; sub: string }) => (
-  <div className="flex items-start gap-3 md:gap-4">
-    <span
-      aria-hidden
-      className="grid size-8 flex-none place-items-center rounded-xl bg-accent text-on-accent shadow-md transition-transform duration-500 group-hover:-rotate-6 md:size-11 md:rounded-2xl"
-    >
-      <Icon className="size-4.5 md:size-5.5" strokeWidth={2.2} />
-    </span>
-    <h3 className="text-title text-ink">
-      {title}
-      <small className="text-label mt-0.5 hidden uppercase text-muted md:mt-1 md:block">{sub}</small>
-    </h3>
-  </div>
-);
-
+/* Three skill flocks + credentials. Backend is the feature card: it is the
+   role this portfolio is applying for. Core skills lead each list as `lead`
+   tags; the rest are ordered by relevance (content.ts). */
 export default function Skills() {
-  const [fs, ai, data] = SKILL_FLOCKS;
   return (
-    <Slide ghost="SKILLS">
-      <BentoGrid className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        <BentoCard tone="cream" className="md:col-span-2 lg:col-span-1 lg:min-h-[16.7rem]">
-          <Head Icon={ICONS[0]} title={fs.title} sub={fs.sub} />
-          <Chips lead={fs.lead} chips={fs.chips} />
-        </BentoCard>
+    <Slide name="Skills">
+      <div className="grid gap-grid md:grid-cols-2 lg:grid-cols-3">
+        {/* phones: the three flocks share one card (.card-stack) so the slide
+            fits 390×664 without shrinking type; md+: three cards */}
+        <div className="card-stack md:contents">
+          {SKILL_FLOCKS.map((flock, i) => (
+            <Card key={flock.title} tone={i === 0 ? 'feature' : 'default'} className={i === 0 ? 'md:col-span-2 lg:col-span-1' : ''}>
+              <h3 className="text-body font-medium text-ink md:text-h3">{flock.title}</h3>
+              {/* the sub-line summarises the tags below; phones skip it for room */}
+              <Eyebrow className="mt-1 hidden md:block">{flock.sub}</Eyebrow>
+              <TagList className="mt-2 md:mt-4">
+                {flock.lead.map((t) => (
+                  <Tag key={t} variant="lead">{t}</Tag>
+                ))}
+                {flock.chips.map((t) => (
+                  <Tag key={t}>{t}</Tag>
+                ))}
+              </TagList>
+            </Card>
+          ))}
+        </div>
 
-        <BentoCard className="lg:min-h-[16.7rem]">
-          <Head Icon={ICONS[1]} title={ai.title} sub={ai.sub} />
-          <Chips lead={ai.lead} chips={ai.chips} />
-        </BentoCard>
+        <div className="card-stack md:contents">
+          {/* what she is learning now, kept apart from the stack she ships
+              with; the label flows inline with its tags */}
+          <Card className="md:col-span-2 lg:col-span-3">
+            <div className="flex flex-wrap items-center gap-1 md:gap-1.5">
+              <Eyebrow as="h3" className="mr-1.5">{SKILLS_COPY.cloudLabel}</Eyebrow>
+              <ul className="contents">
+                {CLOUD_LEARNING.map((t) => (
+                  <Tag key={t}>{t}</Tag>
+                ))}
+              </ul>
+            </div>
+          </Card>
 
-        <BentoCard tone="tint" className="lg:min-h-[16.7rem]">
-          <Head Icon={ICONS[2]} title={data.title} sub={data.sub} />
-          <Chips lead={data.lead} chips={data.chips} />
-        </BentoCard>
-
-        {/* cloud — what she is learning now, kept apart from the stack she ships with */}
-        <BentoCard className="md:col-span-2 lg:col-span-3 max-md:!px-3 max-md:!py-2">
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 md:gap-x-3 md:gap-y-2">
-            <span className="text-label uppercase text-muted">Cloud · learning now</span>
-            {CLOUD_LEARNING.map((c) => (
-              <span
-                key={c}
-                className="rounded-full border border-line bg-surface px-2 py-[2px] text-[0.65rem] font-semibold text-ink md:px-3.5 md:py-1.5 md:text-[0.8rem]"
-              >
-                {c}
-              </span>
-            ))}
-          </div>
-        </BentoCard>
-
-        {/* credentials — the bold strip */}
-        <BentoCard tone="accent" className="md:col-span-2 lg:col-span-3 max-md:!px-3 max-md:!py-2">
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 md:gap-x-3 md:gap-y-2">
-            <span className="text-label uppercase text-on-accent">Credentials</span>
-            {CERTS.map((c) => (
-              <span key={c} className="text-[0.65rem] font-semibold text-on-accent md:text-[0.78rem]">
-                <span aria-hidden className="mx-1 opacity-60 md:mx-1.5">✦</span>
-                {c}
-              </span>
-            ))}
-          </div>
-        </BentoCard>
-      </BentoGrid>
+          <Card className="md:col-span-2 lg:col-span-3">
+            <Eyebrow as="h3">{SKILLS_COPY.credentialsLabel}</Eyebrow>
+            <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-0.5 md:mt-2 md:gap-x-6">
+              {CERTS.map((c) => (
+                <li key={c} className="flex items-baseline gap-2 text-body-sm text-ink">
+                  <span aria-hidden className="size-1 flex-none -translate-y-0.5 rounded-pill bg-accent" />
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </Card>
+        </div>
+      </div>
     </Slide>
   );
 }

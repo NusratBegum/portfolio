@@ -11,7 +11,8 @@ const url = process.argv[2] ?? 'http://localhost:5173/';
 const out = process.argv[3] ?? 'motion-out';
 mkdirSync(out, { recursive: true });
 
-const browser = await chromium.launch();
+// PW_CHROMIUM: use a preinstalled Chromium (e.g. CI or containers) instead of Playwright's download
+const browser = await chromium.launch({ executablePath: process.env.PW_CHROMIUM || undefined });
 
 for (const theme of ['light', 'dark']) {
   const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
@@ -56,13 +57,13 @@ const pAfterRail = await page.evaluate(() => (window).__journey.p);
 await page.screenshot({ path: join(out, 'ix-rail-work.png') });
 
 /* hover a work card */
-const card = page.locator('a.glass.group').nth(4);
+const card = page.locator('#work .card-link').first();
 await card.hover();
 await page.waitForTimeout(700);
 await page.screenshot({ path: join(out, 'ix-hover-card.png') });
 
 /* custom cursor exists on fine pointer */
-const cursorOk = await page.evaluate(() => !!document.querySelector('.pointer-events-none.fixed.z-\\[100\\]'));
+const cursorOk = await page.evaluate(() => !!document.querySelector('.z-cursor'));
 
 console.log(JSON.stringify({
   toggleToDark: isDark,

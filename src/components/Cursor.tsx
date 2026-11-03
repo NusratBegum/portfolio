@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { REDUCED } from '../store/journey';
 
-/** custom cursor — terracotta dot + trailing ring that swells over links */
+/** custom cursor — terracotta dot + trailing ring that swells over links.
+    Shown only once the effect turns it on (fine pointer, ≥1024px, motion OK);
+    otherwise the parked ring would peek out of the top-left corner. */
 export default function Cursor() {
   const dot = useRef<HTMLDivElement>(null);
   const ring = useRef<HTMLDivElement>(null);
@@ -38,7 +40,7 @@ export default function Cursor() {
         const s = down ? 1.7 : hot ? 2.6 : 1;
         ring.current.style.transform = `translate(${rx}px, ${ry}px) scale(${s})`;
         ring.current.style.opacity = hot ? '1' : '0.5';
-        ring.current.style.backgroundColor = hot ? 'color-mix(in srgb, var(--accent) 14%, transparent)' : 'transparent';
+        ring.current.style.backgroundColor = hot ? 'var(--accent-wash)' : 'transparent';
         ring.current.style.borderWidth = hot ? '1px' : '1.5px';
       }
       raf = requestAnimationFrame(tick);
@@ -59,14 +61,14 @@ export default function Cursor() {
   }, []);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-[100] hidden lg:block">
+    <div aria-hidden className="pointer-events-none fixed inset-0 z-cursor hidden [.custom-cursor_&]:block">
       <div
         ref={dot}
-        className="absolute -top-[3px] -left-[3px] size-1.5 rounded-full bg-accent will-change-transform"
+        className="absolute -top-0.75 -left-0.75 size-1.5 rounded-pill bg-accent will-change-transform"
       />
       <div
         ref={ring}
-        className="absolute -top-[17px] -left-[17px] size-[34px] rounded-full border-[1.5px] border-accent/80 transition-[opacity,background-color] duration-300 will-change-transform"
+        className="absolute -top-4.25 -left-4.25 size-8.5 rounded-pill border border-accent/80 transition-[opacity,background-color] duration-slow will-change-transform"
       />
     </div>
   );

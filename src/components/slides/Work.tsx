@@ -1,70 +1,101 @@
-import { ArrowUpRight, Code } from 'lucide-react';
+import { Code } from 'lucide-react';
 import Slide from './Slide';
-import { BentoCard, BentoGrid, Bars } from '../ui/Bento';
-import { PROJECTS } from '../../data/content';
+import { PROJECTS, type Project } from '../../data/content';
+import { Card } from '../ui/Card';
+import { NewTab } from '../ui/Button';
+import { Eyebrow } from '../ui/Eyebrow';
+import { CtaLabel } from '../ui/Link';
+import { Stat } from '../ui/Stat';
+import { Tag, TagList } from '../ui/Tag';
+import { cx } from '../ui/cx';
 
-/* one sparkline per project — fills the card's midfield with its trend */
-const SPARKS: number[][] = [
-  [1.4, 1.0, 0.8, 0.6],
-  [0.5, 0.8, 1.1, 1.4],
-  [0.9, 1.2, 1.0, 1.4],
-  [1.4, 1.1, 0.7, 0.5],
-];
+/* Secondary link to the source. It sits above the card's stretched link
+   (relative z-1), names its project for screen readers, and keeps a ~30px hit
+   area with py-2. */
+function CodeLink({ p, className }: { p: Project; className?: string }) {
+  if (!p.code) return null;
+  return (
+    <a
+      href={p.code}
+      target="_blank"
+      rel="noopener"
+      className={cx(
+        'relative z-1 items-center gap-1 py-2 font-mono text-label uppercase text-accent-ink transition-colors hover:text-ink',
+        className,
+      )}
+    >
+      <Code aria-hidden className="size-3.5" strokeWidth={2.25} />
+      Code<span className="sr-only"> for {p.title} on GitHub</span>
+      <NewTab />
+    </a>
+  );
+}
+
+/* A project card reads top to bottom: kind (+ live status) → title →
+   one-line summary → metric with its caption → stack → where the link goes.
+   The title is a stretched link (.card-stretch), so the whole card opens the
+   build while the Code link stays its own target. Phones keep kind, title,
+   metric and Code (summary, stack and CTA from md); the summary is still the
+   link's description for screen readers. */
+function ProjectCard({ p }: { p: Project }) {
+  const id = `project-${p.num}`;
+  return (
+    <Card className="card-link h-full">
+      <div className="flex items-center justify-between gap-2">
+        <Eyebrow as="span">{p.kind}</Eyebrow>
+        <div className="flex items-center gap-3">
+          {p.live && <Tag as="span" variant="live">Live</Tag>}
+          <CodeLink p={p} className="inline-flex md:hidden" />
+        </div>
+      </div>
+      <h3 className="mt-1 font-mono text-body font-medium text-ink md:mt-3 md:text-h3">
+        <a
+          id={`${id}-title`}
+          href={p.href}
+          target="_blank"
+          rel="noopener"
+          aria-labelledby={`${id}-title ${id}-cta`}
+          aria-describedby={`${id}-summary`}
+          className="card-stretch"
+        >
+          {p.title}
+        </a>
+      </h3>
+      <p id={`${id}-summary`} className="mt-2 hidden text-body-sm text-muted md:block">
+        {p.summary}
+      </p>
+      <Stat
+        size="metric"
+        layout="row-to-stack"
+        value={p.metric}
+        caption={p.metricLabel}
+        className="mt-1 md:mt-auto md:pt-6"
+      />
+      <TagList className="mt-4 hidden md:flex">
+        {p.tags.map((t) => (
+          <Tag key={t}>{t}</Tag>
+        ))}
+      </TagList>
+      <div className="mt-3 hidden items-center justify-between gap-3 md:flex">
+        <CtaLabel id={`${id}-cta`} external={p.live || /^https?:/.test(p.href)}>{p.cta}</CtaLabel>
+        <CodeLink p={p} className="inline-flex" />
+      </div>
+    </Card>
+  );
+}
 
 export default function Work() {
   return (
-    <Slide ghost="WORK">
-      <BentoGrid className="grid-cols-1 lg:grid-cols-4">
-        {PROJECTS.map((p, i) => (
-          <BentoCard
-            key={p.num}
-            tone={i === 0 ? 'cream' : 'glass'}
-            className="min-h-0 md:min-h-[22rem]"
-          >
-            <span className="absolute top-0 right-0 hidden size-9 place-items-center rounded-full border border-line text-ink transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent md:grid">
-              <ArrowUpRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" strokeWidth={2.2} />
-            </span>
-            {/* phone: one readable row (title left, metric right); md+: tall card */}
-            <div className="flex items-end justify-between gap-4 md:block md:h-full">
-              <div>
-                <div className="hidden text-[clamp(2rem,4vw,3.4rem)] font-extrabold leading-none tracking-tighter text-muted transition-colors duration-300 group-hover:text-accent md:block">
-                  {p.num}
-                </div>
-                <h3 className="text-title md:mt-3 md:pr-8 text-ink">
-                  {/* stretched link: the whole card opens the build, the Code link sits above it */}
-                  <a href={p.href} target="_blank" rel="noopener" className="after:absolute after:inset-0 after:content-['']">
-                    {p.title}
-                  </a>
-                </h3>
-                {p.code && (
-                  <a
-                    href={p.code}
-                    target="_blank"
-                    rel="noopener"
-                    className="relative z-10 mt-1.5 inline-flex items-center gap-1 rounded-full border border-line bg-surface px-2.5 py-1 text-[0.68rem] font-bold text-ink transition-colors duration-300 hover:border-accent hover:text-accent md:mt-3"
-                  >
-                    <Code aria-hidden className="size-3" strokeWidth={2.4} /> Code
-                  </a>
-                )}
-              </div>
-              <div className="min-w-0 max-w-[60%] text-right md:mt-auto md:max-w-none md:text-left">
-                <Bars heights={SPARKS[i]} hot={p.num === '01' || p.num === '04' ? 0 : 3} className="mb-4 hidden opacity-70 md:flex" />
-                <div className="text-[clamp(1.15rem,2.4vw,2rem)] font-extrabold tracking-tight text-accent">
-                  {p.metric}
-                  <small className="text-label mt-1 block uppercase text-muted">{p.metricLabel}</small>
-                </div>
-                <ul className="mt-3 hidden flex-wrap gap-1.5 md:flex">
-                  {p.tags.map((t) => (
-                    <li key={t} className="rounded-full border border-line px-2.5 py-1 text-[0.68rem] font-bold text-muted">
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </BentoCard>
+    <Slide name="Work">
+      {/* 1 column on phones, 2×2 on landscape phones and tablets, a row of 4
+          from 1024px (2×2 there would be taller than a 768px-high screen) */}
+      <ul className="grid gap-grid sm:grid-cols-2 lg:grid-cols-4">
+        {PROJECTS.map((p) => (
+          <li key={p.num}>
+            <ProjectCard p={p} />
+          </li>
         ))}
-      </BentoGrid>
+      </ul>
     </Slide>
   );
 }

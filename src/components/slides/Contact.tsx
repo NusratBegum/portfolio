@@ -1,6 +1,9 @@
-import { FileDown, PenLine } from 'lucide-react';
+import type { ComponentType } from 'react';
+import { FileDown, PenLine, Phone } from 'lucide-react';
 import Slide from './Slide';
-import { LINKS } from '../../data/content';
+import { COLOPHON, CONTACT, CV, LINKS, SOCIAL_LINKS } from '../../data/content';
+import { CtaButton } from '../ui/Button';
+import { TextLink } from '../ui/Link';
 
 /* brand marks — lucide dropped brand icons, so these two ship inline */
 const LinkedinIcon = ({ className = '' }: { className?: string }) => (
@@ -14,44 +17,58 @@ const GithubIcon = ({ className = '' }: { className?: string }) => (
   </svg>
 );
 
-const SOCIALS = [
-  { label: 'LinkedIn', href: LINKS.linkedin, Icon: LinkedinIcon },
-  { label: 'GitHub', href: LINKS.github, Icon: GithubIcon },
-  { label: 'Medium', href: LINKS.medium, Icon: PenLine },
-];
+const ICONS: Record<string, ComponentType<{ className?: string }>> = {
+  LinkedIn: LinkedinIcon,
+  GitHub: GithubIcon,
+  Medium: PenLine,
+};
 
+/* The one brand line in the copy ("fly" in accent, display-size so the accent
+   only needs 3:1), the email as the primary action, every other channel as a
+   secondary button, then the footer and colophon. */
 export default function Contact() {
+  const { headline, blurb, footer } = CONTACT;
   return (
-    <Slide ghost="SAY HI" innerClassName="text-center">
-      <h2 data-reveal className="text-display uppercase text-ink">
-        Let's <span className="text-accent">fly</span>
+    /* phones: sits low, clear of the flamingo's sky band */
+    <Slide name="Contact" innerClassName="sky-text flex flex-col items-center text-center max-md:mb-0">
+      <h3 data-reveal className="text-h1 uppercase text-ink">
+        {headline.before} <span className="text-accent">{headline.accent}</span>
         <br />
-        together
-      </h2>
-      <a
-        data-reveal
-        href={LINKS.email}
-        className="btn btn-ink mt-8 mb-5 h-12 max-w-full px-6 text-[clamp(0.9rem,2.4vw,1.4rem)] font-bold tracking-tight md:h-14 md:px-8"
-      >
-        <span className="truncate">{LINKS.emailText}</span>
-      </a>
-      <div data-reveal className="flex flex-wrap justify-center gap-2.5">
-        {SOCIALS.map(({ label, href, Icon }) => (
-          <a key={label} href={href} target="_blank" rel="noopener" className="btn btn-glass btn-sm">
-            <Icon className="size-4" aria-hidden />
-            {label}
-          </a>
-        ))}
-        <a href={LINKS.cv} download className="btn btn-glass btn-sm">
-          <FileDown className="size-4" aria-hidden />
-          CV (PDF)
-        </a>
+        {headline.after}
+      </h3>
+      <p data-reveal className="mt-4 max-w-measure text-body text-ink md:mt-5 md:text-body-lg">
+        {blurb}
+      </p>
+      <div data-reveal className="mt-6 max-w-full md:mt-8">
+        <CtaButton cta={{ label: LINKS.emailText, href: LINKS.email }} variant="primary" size="lg" />
       </div>
-      <div data-reveal className="text-body mt-10 flex flex-wrap justify-center gap-x-7 gap-y-1 text-muted">
-        <span>© 2026 Nusrat Begum</span>
-        <a href={LINKS.phone} className="transition-colors hover:text-accent">{LINKS.phoneText}</a>
-        <span>Bangkok, Thailand</span>
-      </div>
+      <ul data-reveal className="mt-3 flex flex-wrap justify-center gap-2 md:mt-4">
+        {SOCIAL_LINKS.map(({ label, href }) => {
+          const Icon = ICONS[label];
+          return (
+            <li key={label}>
+              <CtaButton cta={{ label, href }} icon={Icon && <Icon className="size-4" />} />
+            </li>
+          );
+        })}
+        <li>
+          <CtaButton cta={CV} icon={<FileDown aria-hidden className="size-4" strokeWidth={2} />} />
+        </li>
+        <li>
+          <CtaButton
+            cta={{ label: LINKS.phoneText, href: LINKS.phone }}
+            icon={<Phone aria-hidden className="size-4" strokeWidth={2} />}
+          />
+        </li>
+      </ul>
+      <footer data-reveal className="mt-8 font-mono text-caption text-muted md:mt-12">
+        <p>
+          {footer.copyright} · {footer.location}
+        </p>
+        <p className="mt-1">
+          {COLOPHON.text} · <TextLink href={COLOPHON.link.href}>{COLOPHON.link.label}</TextLink>
+        </p>
+      </footer>
     </Slide>
   );
 }
