@@ -50,7 +50,7 @@ export default function Impact() {
           <h3 className="text-body font-medium text-ink md:text-h3">{education.degree}</h3>
           <p className="text-body-sm text-ink">{education.school}</p>
           <p className="text-body-sm text-muted md:mt-2">{education.detail}</p>
-          <p className="font-mono text-caption text-muted md:mt-2">{education.timing}</p>
+          {education.timing && <p className="font-mono text-caption text-muted md:mt-2">{education.timing}</p>}
         </Card>
       </div>
     </Slide>

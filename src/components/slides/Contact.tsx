@@ -1,7 +1,7 @@
 import type { ComponentType } from 'react';
-import { PenLine, Phone } from 'lucide-react';
+import { FileDown, PenLine, Phone } from 'lucide-react';
 import Slide from './Slide';
-import { COLOPHON, CONTACT, LINKS, SOCIAL_LINKS } from '../../data/content';
+import { COLOPHON, CONTACT, CV, LINKS, SOCIAL_LINKS } from '../../data/content';
 import { CtaButton } from '../ui/Button';
 import { TextLink } from '../ui/Link';
 
@@ -51,6 +51,9 @@ export default function Contact() {
             </li>
           );
         })}
+        <li>
+          <CtaButton cta={CV} icon={<FileDown aria-hidden className="size-4" strokeWidth={2} />} />
+        </li>
         <li>
           <CtaButton
             cta={{ label: LINKS.phoneText, href: LINKS.phone }}

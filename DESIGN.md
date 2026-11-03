@@ -52,13 +52,14 @@ oat daylight, `.dark` = Apple midnight). **`@theme inline`** exposes roles as ut
 
 | Component | File | Variants | Rule |
 |---|---|---|---|
-| Card, CardLink | `ui/Card.tsx` | `default` (glass), `feature` | Every content box. `feature` at most once per slide: the thesis result (Highlights), Backend (the role applied for, Skills), the first-author paper (Writing). Work has none; order carries priority. A CardLink is one link: name = title + CTA (`aria-labelledby`), summary as description. |
+| Card, CardLink | `ui/Card.tsx` | `default` (glass), `feature` | Every content box. `feature` at most once per slide: the thesis result (Highlights), Backend (the role applied for, Skills), the first-author paper (Writing). Work has none; order carries priority. A CardLink is one link: name = title + CTA (`aria-labelledby`), summary as description. A card that also needs a second link (Work's Code link) is a Card with `.card-link` and a stretched title link (`.card-stretch`: its `::after` covers the card; the Code link sits above it at `z-1`); the focus ring is drawn on the card. |
 | Tag, TagList | `ui/Tag.tsx` | `default`, `lead`, `live` | One recipe for Skills and Work. `lead` = a flock's core skills, listed first. `live` = dot + LIVE, deliberately not a pill: status isn't a technology. |
 | Eyebrow | `ui/Eyebrow.tsx` | — | The label role: kind, source, card section. Short, never a sentence. |
 | Stat | `ui/Stat.tsx` | size `display` / `stat` / `metric`; layout `stack` / `row-to-stack`; `count` | Number + caption + optional source (the project it comes from). `count` wires the GSAP counter; animated digits are `aria-hidden`, the real value is in the markup and an sr-only copy. |
 | Button, CtaButton | `ui/Button.tsx`; `.btn*` in `@layer components` | `primary`, `secondary`; `md` 44px, `lg` 48/56px, `icon` | One primary per view (plus the nav's "Email me"). A CTA with `slide` flies the deck (DeckContext → `goTo`) and keeps `href` as fallback; external links open a new tab with ↗ and a screen-reader notice (a brand icon replaces ↗). In a layer so `px-4` on the nav brand wins. |
 | CtaLabel, TextLink | `ui/Link.tsx` | — | CtaLabel names where a card link goes (mono, accent-ink). TextLink: underlined inline link. |
 | Materials | `global.css` | `glass`, `glass-feature`, `glass-chrome`, `sky-text` | `sky-text` gives copy set on the sky (hero, contact) a halo of the page color. |
+| Card stack | `.card-stack` in `global.css` | — | Phones only: related cards share one glass card and become divided sections, so a dense slide (Skills) fits 390×664 without smaller type. From md the wrapper is `display: contents` (`md:contents`) and each child is its own card again. |
 | Slide | `slides/Slide.tsx` | — | Section id + region name from `SECTIONS`, chrome-clearing padding, scroll fallback. |
 
 **Removed.** `Bars` sparklines and Work's `SPARKS` / `num === '01'` (invented trends next to real numbers);

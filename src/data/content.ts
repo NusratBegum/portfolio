@@ -11,6 +11,8 @@ export const LINKS = {
   linkedin: 'https://linkedin.com/in/nusrat-begum',
   github: 'https://github.com/NusratBegum',
   medium: 'https://medium.com/@rupunzelnusrat5',
+  /** master resume as a PDF (public/), offered as a download on Contact */
+  cv: '/Nusrat-Begum-CV.pdf',
   phone: 'tel:+66802240539',
   phoneText: '+66 80 224 0539',
   paper: 'https://ieeexplore.ieee.org/document/11596765',
@@ -36,7 +38,7 @@ export const SECTIONS: Record<SlideName, { id: string; heading: string }> = {
 
 /** A call to action. `slide` marks an in-deck target: wire it to the rail's
     goTo(SLIDES.indexOf(slide)); `href` is the no-JS fallback. */
-export type Cta = { label: string; href: string; slide?: SlideName };
+export type Cta = { label: string; href: string; slide?: SlideName; download?: boolean };
 
 /* ── nav + rail ────────────────────────────────────────────────────────── */
 
@@ -55,12 +57,12 @@ export const RAIL = {
 export const HERO = {
   name: 'Nusrat Begum',
   nameLines: ['Nusrat', 'Begum'],
-  roles: ['Python backend', 'Full-stack', 'ML research'],
+  roles: ['Python full-stack', 'FastAPI', 'React'],
   /** one sentence, ≤ 25 words: what she builds + the single best proof */
   summary:
     "I build Python APIs and React front ends, and I'm first author of an IEEE JCSSE 2026 paper on drift detection.",
   /** level + timing */
-  status: 'M.Sc. Computer Science, Mahidol University (MUICT) · final defense December 2026',
+  status: 'M.Sc. Computer Science, Mahidol University (MUICT)',
   /** what she's looking for + where */
   availability: 'Open to software, backend & full-stack internships · Bangkok',
   primaryCta: { label: 'See my work', href: '#work', slide: 'Work' } satisfies Cta,
@@ -86,13 +88,13 @@ export const IMPACT: {
   eyebrow: string;
   headline: Stat & { context: string };
   stats: Stat[];
-  education: { degree: string; school: string; detail: string; timing: string };
+  education: { degree: string; school: string; detail: string; timing?: string };
 } = {
   eyebrow: 'Thesis result',
   headline: {
-    value: 90,
-    suffix: '%',
-    label: 'less permutation-test compute in my drift detector',
+    value: 20,
+    suffix: '/199',
+    label: 'permutations to confirm a clear drift',
     context: "Master's thesis · first-author paper, IEEE JCSSE 2026",
   },
   stats: [
@@ -104,7 +106,6 @@ export const IMPACT: {
     degree: 'M.Sc. Computer Science',
     school: 'Faculty of ICT, Mahidol University (MUICT)',
     detail: 'Thesis: Feature Drift Detection via Adversarial Validation',
-    timing: 'Final defense December 2026',
   },
 };
 
@@ -119,7 +120,7 @@ export const SKILL_FLOCKS = [
     title: 'Backend',
     sub: 'APIs, auth, testing, CI',
     lead: ['Python', 'FastAPI'],
-    chips: ['REST APIs', 'Pydantic', 'SQLAlchemy', 'OAuth2 / JWT', 'pytest', 'Docker', 'GitHub Actions', 'Git', 'Linux', 'uv'],
+    chips: ['REST APIs', 'Pydantic', 'SQLAlchemy', 'OAuth2 / JWT', 'pytest', 'Docker', 'GitHub Actions', 'Git', 'Linux'],
   },
   {
     glyph: '✦',
@@ -139,13 +140,17 @@ export const SKILL_FLOCKS = [
 
 export const SKILLS_COPY = {
   credentialsLabel: 'Credentials',
+  cloudLabel: 'Cloud · learning now',
 };
+
+/** What she is learning now — kept apart from the stack she ships with. */
+export const CLOUD_LEARNING = ['Kubernetes', 'AWS', 'GCP', 'Redis', 'Microservices'];
 
 export const CERTS = [
   'First-author paper, IEEE JCSSE 2026',
-  'MongoDB Schema Design',
-  'Ethical Hacker',
-  'Hult Prize 2021 · Bangkok Regional',
+  'Microsoft Azure Fundamentals (AZ-900)',
+  'Google Data Analytics Certificate',
+  'Hult Prize 2021 · Campus Winner',
 ];
 
 /* ── 4 · work ──────────────────────────────────────────────────────────── */
@@ -160,29 +165,31 @@ export type Project = {
   metric: string;
   metricLabel: string;
   tags: string[];
+  /** live demo, or the paper when there is no demo */
   href: string;
-  /** card call to action — names where the link goes */
+  /** card call to action — names where `href` goes */
   cta: string;
-  /** true when `href` is a deployed site/API, false for source code */
+  /** true when `href` is a deployed site/API */
   live: boolean;
+  /** source repository, shown as a separate Code link */
+  code?: string;
 };
 
-/* Order for a backend / full-stack screen: the fullest backend stack first
-   (auth + database + containers), then a live model-serving API with a
-   measured result, then the thesis (already the headline on Highlights and
-   Writing), then the long-running data pipeline. */
+/* Ordered as on the master resume: the two live APIs, the data pipeline,
+   then the thesis (already the headline on Highlights and Writing). */
 export const PROJECTS: Project[] = [
   {
     num: '01',
     title: 'Smart Calculator API',
     kind: 'REST API',
     summary: 'Calculator REST API with JWT authentication and a PostgreSQL database, containerized with Docker Compose.',
-    metric: '3',
-    metricLabel: 'Docker Compose services',
+    metric: '20',
+    metricLabel: 'automated API tests in CI',
     tags: ['FastAPI', 'PostgreSQL', 'JWT', 'Docker'],
     href: 'https://smart-calculator-api.vercel.app',
     cta: 'Open live API',
     live: true,
+    code: 'https://github.com/NusratBegum/smart-calculator',
   },
   {
     num: '02',
@@ -195,30 +202,33 @@ export const PROJECTS: Project[] = [
     href: 'https://nusrat-diabetes-api.vercel.app',
     cta: 'Open live API',
     live: true,
+    code: 'https://github.com/NusratBegum/Diabetes-Prediction',
   },
   {
     num: '03',
-    title: 'EADD Drift Detector',
-    kind: "Master's thesis",
-    summary: "Unsupervised detector that flags drift in a model's input features using adversarial validation, for MLOps monitoring.",
-    metric: '13',
-    metricLabel: 'real-world streams benchmarked',
-    tags: ['Python', 'pytest', 'LightGBM', 'SHAP'],
-    href: 'https://github.com/NusratBegum/unsupervised-concept-drift-detection',
-    cta: 'View code on GitHub',
-    live: false,
-  },
-  {
-    num: '04',
     title: 'Bangkok Air Quality Tracker',
     kind: 'Data pipeline',
     summary: "Python pipeline, scheduled on GitHub Actions, that collects Bangkok's PM2.5 data every day for a public tracker.",
     metric: '570',
     metricLabel: 'days of data auto-collected',
-    tags: ['Python', 'GitHub Actions', 'REST APIs', 'pandas'],
+    tags: ['Python', 'GitHub Actions', 'Chart.js', 'REST APIs'],
     href: 'https://bangkok-air-quality.vercel.app',
     cta: 'Open live tracker',
     live: true,
+    code: 'https://github.com/NusratBegum/Data-Science-Final-Project',
+  },
+  {
+    num: '04',
+    title: 'EADD Drift Detector',
+    kind: "Master's thesis",
+    summary: "Unsupervised detector that flags drift in a model's input features using adversarial validation, for MLOps monitoring.",
+    metric: '4/4',
+    metricLabel: 'drift types caught, 0 false alarms',
+    tags: ['Python', 'LightGBM', 'SHAP', 'pytest'],
+    /* no standalone repo yet: the card opens the paper */
+    href: LINKS.paper,
+    cta: 'Read the paper',
+    live: false,
   },
 ];
 
@@ -241,7 +251,7 @@ export const POSTS: Post[] = [
     kind: 'Paper · IEEE JCSSE 2026',
     title: 'Enhanced Adversarial Drift Detection for MLOps Feature Monitoring',
     byline: 'N. Begum (first author), P. Yamchote, C. Amornbunchornvej, T. Noraset',
-    summary: 'Detects feature drift with adversarial validation, using 90% less permutation-test compute.',
+    summary: 'Detects feature drift with adversarial validation; a clear drift is confirmed after 20 of 199 permutations.',
     href: LINKS.paper,
     cta: 'Read on IEEE Xplore',
   },
@@ -249,7 +259,7 @@ export const POSTS: Post[] = [
     num: '№2',
     kind: 'Article · Medium',
     title: 'Before You Touch a Neural Network, Master These 3 Classifiers',
-    href: LINKS.medium,
+    href: 'https://medium.com/@rupunzelnusrat5/before-you-touch-a-neural-network-master-these-3-classifiers-817ec9ef8883',
     cta: 'Read on Medium',
   },
 ];
@@ -261,7 +271,7 @@ export const CONTACT = {
   headline: { before: "Let's", accent: 'fly', after: 'together' },
   /** plain-text version for aria-label / meta */
   headlineText: "Let's fly together",
-  blurb: 'Hiring a Python backend or full-stack intern? Email me, or reach me on LinkedIn.',
+  blurb: 'Hiring a Python full-stack or backend intern? Email me, or reach me on LinkedIn.',
   footer: {
     copyright: '© 2026 Nusrat Begum',
     location: 'Bangkok, Thailand',
@@ -269,6 +279,9 @@ export const CONTACT = {
 };
 
 /** Contact.tsx keeps the icons; labels + targets live here. */
+/** Master resume, offered as a download next to the social links. */
+export const CV = { label: 'CV (PDF)', href: LINKS.cv, download: true } satisfies Cta;
+
 export const SOCIAL_LINKS = [
   { label: 'LinkedIn', href: LINKS.linkedin },
   { label: 'GitHub', href: LINKS.github },

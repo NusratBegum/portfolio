@@ -169,9 +169,23 @@ export default function App() {
       const i = slides.findIndex((s) => s.contains(e.target as Node));
       if (i >= 0 && i !== flyingTo.current) goTo(i);
     };
+    /* the pin spacer that gives the deck its scroll height can land a few
+       ms after the trigger exists. Under reduced motion goTo jumps instantly,
+       and a jump made before then is clamped to 0 (a smooth scroll outlives
+       the gap), so wait, frame by frame, until the page is tall enough */
+    let raf = 0;
+    let frames = 0;
     const fromHash = () => {
+      cancelAnimationFrame(raf);
       const i = SLIDES.findIndex((s) => `#${SECTIONS[s].id}` === window.location.hash);
-      if (i > 0) goTo(i);
+      if (i <= 0) return;
+      const st = ScrollTrigger.getById('stage');
+      const room = document.documentElement.scrollHeight - window.innerHeight;
+      if ((!st || room < st.end - 1) && frames++ < 60) {
+        raf = requestAnimationFrame(fromHash);
+        return;
+      }
+      goTo(i);
     };
     main.addEventListener('focusin', onFocus);
     main.addEventListener('scroll', unscroll);
@@ -182,6 +196,7 @@ export default function App() {
       main.removeEventListener('scroll', unscroll);
       window.clearTimeout(id);
       window.removeEventListener('load', fromHash);
+      cancelAnimationFrame(raf);
     };
   }, [goTo]);
 

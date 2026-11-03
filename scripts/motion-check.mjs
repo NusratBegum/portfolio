@@ -57,7 +57,7 @@ const pAfterRail = await page.evaluate(() => (window).__journey.p);
 await page.screenshot({ path: join(out, 'ix-rail-work.png') });
 
 /* hover a work card */
-const card = page.locator('#work a.card-link').first();
+const card = page.locator('#work .card-link').first();
 await card.hover();
 await page.waitForTimeout(700);
 await page.screenshot({ path: join(out, 'ix-hover-card.png') });

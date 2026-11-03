@@ -51,6 +51,7 @@ export function CtaButton({
     <a
       href={cta.href}
       onClick={cta.slide ? onClick : undefined}
+      download={cta.download || undefined}
       {...(external ? { target: '_blank', rel: 'noopener' } : {})}
       className={buttonClass({ variant, size }, className)}
     >
