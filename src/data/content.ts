@@ -175,21 +175,22 @@ export type Project = {
   code?: string;
 };
 
-/* Ordered as on the master resume: the two live APIs, the data pipeline,
-   then the thesis (already the headline on Highlights and Writing). */
+/* StockSense leads (portfolio #2): the fullest full-stack build. Then the
+   live model API, the data pipeline, and the thesis (already the headline on
+   Highlights and Writing). Smart Calculator stays in the no-JS list only. */
 export const PROJECTS: Project[] = [
   {
     num: '01',
-    title: 'Smart Calculator API',
-    kind: 'REST API',
-    summary: 'Calculator REST API with JWT authentication and a PostgreSQL database, containerized with Docker Compose.',
-    metric: '20',
-    metricLabel: 'automated API tests in CI',
-    tags: ['FastAPI', 'PostgreSQL', 'JWT', 'Docker'],
-    href: 'https://smart-calculator-api.vercel.app',
-    cta: 'Open live API',
+    title: 'StockSense Inventory',
+    kind: 'Full-stack app',
+    summary: 'Inventory and orders dashboard for small online shops: FastAPI backend, React and TypeScript front end.',
+    metric: '0',
+    metricLabel: 'oversells in 16 parallel orders',
+    tags: ['FastAPI', 'React', 'TypeScript', 'PostgreSQL'],
+    href: 'https://stocksense-demo-mauve.vercel.app',
+    cta: 'Open live demo',
     live: true,
-    code: 'https://github.com/NusratBegum/smart-calculator',
+    code: 'https://github.com/NusratBegum/stocksense',
   },
   {
     num: '02',
@@ -225,10 +226,10 @@ export const PROJECTS: Project[] = [
     metric: '4/4',
     metricLabel: 'drift types caught, 0 false alarms',
     tags: ['Python', 'LightGBM', 'SHAP', 'pytest'],
-    /* no standalone repo yet: the card opens the paper */
-    href: LINKS.paper,
-    cta: 'Read the paper',
-    live: false,
+    href: 'https://eadd-demo.vercel.app',
+    cta: 'Open live demo',
+    live: true,
+    code: 'https://github.com/NusratBegum/eadd',
   },
 ];
 
