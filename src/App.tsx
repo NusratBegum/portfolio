@@ -29,6 +29,8 @@ export default function App() {
   const [active, setActive] = useState(0);
   /** slide index the deck was last sent to by goTo (-1: none yet) */
   const flyingTo = useRef(-1);
+  /** when that flight started (ms, performance.now) */
+  const flightAt = useRef(0);
   const [skyReady, setSkyReady] = useState(false);
   useLayoutEffect(() => {
     const id = window.setTimeout(() => setSkyReady(true), 250);
@@ -150,6 +152,7 @@ export default function App() {
     const len = track.scrollWidth - window.innerWidth;
     const p = len ? Math.min(slide.offsetLeft / len, 1) : 0;
     flyingTo.current = i;
+    flightAt.current = performance.now();
     window.scrollTo({ top: st.start + p * (st.end - st.start), behavior: REDUCED ? 'auto' : 'smooth' });
     if (focus) slide.focus({ preventScroll: true });
   }, []);
@@ -167,7 +170,14 @@ export default function App() {
     const onFocus = (e: FocusEvent) => {
       unscroll();
       const i = slides.findIndex((s) => s.contains(e.target as Node));
-      if (i >= 0 && i !== flyingTo.current) goTo(i);
+      if (i < 0) return;
+      /* fly there whenever the slide is off screen. The flight guard only
+         covers a flight that just started (goTo focusing its own target):
+         after one, the user may have scrolled away, and Tab would otherwise
+         land on a link they can't see */
+      const r = slides[i].getBoundingClientRect();
+      const inFlight = i === flyingTo.current && performance.now() - flightAt.current < 1500;
+      if (Math.abs(r.left) > r.width / 2 && !inFlight) goTo(i);
     };
     /* the pin spacer that gives the deck its scroll height can land a few
        ms after the trigger exists. Under reduced motion goTo jumps instantly,
