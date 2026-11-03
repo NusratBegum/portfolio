@@ -115,8 +115,8 @@ utilities only. Tailwind's default `text-*`, `font-weight-*`, `tracking-*` and `
 **Fonts.** **Inter** (400 / 500 / 700) is for UI and reading text: tall x-height, clear at small sizes, real
 tabular figures. **JetBrains Mono** (400 / 500) is only for metadata: labels, tags, post numbers, project titles,
 captions, the nav rail. Mono there signals engineering craft and keeps numbers aligned; limiting it to metadata
-keeps it from taking over. Both are self-hosted WOFF2, latin subset, in `public/fonts/` (five files, 115 KB, OFL
-licences alongside). No 600/800 cuts ship, and `font-synthesis: none` stops the browser from faking them.
+keeps it from taking over. Both are self-hosted WOFF2, latin subset, in `src/assets/fonts/` (five files, 115 KB, OFL
+licences alongside), bundled by Vite: hashed files in the normal build, inlined in `build:single`. No 600/800 cuts ship, and `font-synthesis: none` stops the browser from faking them.
 
 **Scale.** Major Third (×1.25) on 1rem. With only three weights, size carries most of the hierarchy, and ×1.25
 makes each role clearly different at a glance. Step −2 (10px) is left out on purpose: nothing renders below 12.8px.
